@@ -96,7 +96,14 @@ Build an bs4 table item"><meta property="og:image" content="/logo.svg"><!-- math
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs4Table</span><span class="op">(</span><span class="va">data</span>, cardWrap <span class="op">=</span> <span class="cn">FALSE</span>, bordered <span class="op">=</span> <span class="cn">FALSE</span>, striped <span class="op">=</span> <span class="cn">FALSE</span>, width <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bs4Table</span><span class="op">(</span>
+  <span class="va">data</span>,
+  cardWrap <span class="op">=</span> <span class="cn">FALSE</span>,
+  bordered <span class="op">=</span> <span class="cn">FALSE</span>,
+  striped <span class="op">=</span> <span class="cn">FALSE</span>,
+  width <span class="op">=</span> <span class="fl">12</span>,
+  header_attributes <span class="op">=</span> <span class="cn">NULL</span>
+<span class="op">)</span>
 
 <span class="fu">bs4TableItems</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
 
@@ -115,6 +122,12 @@ Build an bs4 table item"><meta property="og:image" content="/logo.svg"><!-- math
 <dd><p>Whether to displayed striped in elements. FALSE by default.</p></dd>
 <dt>width</dt>
 <dd><p>Table width. 12 by default.</p></dd>
+<dt>header_attributes</dt>
+<dd><p>a named list of attributes for each
+header, which need to be the length of the number of columns
+in the data. For example, 
+`list(list(class = "col-3"), list(class = "col-5"))` 
+changes with width fo the column, or you can use `list(width="25%)`.</p></dd>
 <dt>...</dt>
 <dd><p>Any HTML element.</p></dd>
 <dt>dataCell</dt>
@@ -152,6 +165,12 @@ bs4TableItem in bs4TableItems. Set "" to have an empty title field.</p></dd>
 <span class="r-in">  server <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span> <span class="op">}</span></span>
 <span class="r-in"> <span class="op">)</span></span>
 <span class="r-in"> </span>
+<span class="r-in"> </span>
+<span class="r-in"> <span class="va">header_attributes</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>width <span class="op">=</span> <span class="st">"20%"</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span class="r-in"> <span class="va">header_attributes</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">header_attributes</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
+<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>style<span class="op">=</span><span class="st">"background-color:#FF0000"</span><span class="op">)</span></span>
+<span class="r-in"> <span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"> <span class="co"># with shiny tags as input</span></span>
 <span class="r-in"> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span></span>
 <span class="r-in">  ui <span class="op">=</span> <span class="fu"><a href="dashboardPage.html">dashboardPage</a></span><span class="op">(</span></span>
@@ -179,7 +198,8 @@ bs4TableItem in bs4TableItems. Set "" to have an empty title field.</p></dd>
 <span class="r-in">            <span class="op">)</span></span>
 <span class="r-in">          <span class="op">)</span>,</span>
 <span class="r-in">          <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"$2,500 USD"</span>, <span class="st">"NA"</span>, <span class="st">"NA"</span>, <span class="st">"test"</span>, <span class="st">"NA"</span><span class="op">)</span></span>
-<span class="r-in">        <span class="op">)</span></span>
+<span class="r-in">        <span class="op">)</span>,</span>
+<span class="r-in">        header_attributes <span class="op">=</span> <span class="va">header_attributes</span></span>
 <span class="r-in">      <span class="op">)</span></span>
 <span class="r-in">    <span class="op">)</span>, </span>
 <span class="r-in">    footer <span class="op">=</span> <span class="fu"><a href="dashboardFooter.html">dashboardFooter</a></span><span class="op">(</span><span class="op">)</span></span>
