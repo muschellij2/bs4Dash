@@ -15,24 +15,24 @@ bs4ValueBoxOutput(outputId, width = 4)
 
 bs4ValueBox(
   value,
-  subtitle,
+  subtitle = "",
   icon = NULL,
   color = NULL,
   width = 3,
   href = NULL,
-  footer = NULL,
+  footer = "",
   gradient = FALSE,
   elevation = NULL
 )
 
 valueBox(
   value,
-  subtitle,
+  subtitle = "",
   icon = NULL,
   color = NULL,
   width = 3,
   href = NULL,
-  footer = NULL,
+  footer = "",
   gradient = FALSE,
   elevation = NULL
 )
