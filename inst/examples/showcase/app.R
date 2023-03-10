@@ -57,7 +57,7 @@ basic_cards_tab <- tabItem(
         boxDropdownItem("Link to google", href = "https://www.google.com"),
         boxDropdownItem("Item with inputId", id = "dropdown_item2"),
         dropdownDivider(),
-        boxDropdownItem("item 3", href = "#", icon = icon("th"))
+        boxDropdownItem("item 3", href = "#", icon = icon("table-cells"))
       ),
       sidebar = boxSidebar(
         startOpen = FALSE,
@@ -458,23 +458,21 @@ tab_cards_tab <- tabItem(
   ),
   br(), br(),
   # Vertical panels: TO DO
-  fluidRow(
-    tabsetPanel(
-      id = "tabsetpanel3",
-      selected = "Tab 2",
-      vertical = TRUE,
-      tabPanel(
-        "Tab 1",
-        "Content 1"
-      ),
-      tabPanel(
-        "Tab 2",
-        "Content 2"
-      ),
-      tabPanel(
-        "Tab 3",
-        "Content 3"
-      )
+  tabsetPanel(
+    id = "tabsetpanel3",
+    selected = "Tab 2",
+    vertical = TRUE,
+    tabPanel(
+      "Tab 1",
+      "Content 1"
+    ),
+    tabPanel(
+      "Tab 2",
+      "Content 2"
+    ),
+    tabPanel(
+      "Tab 3",
+      "Content 3"
     )
   )
 )
@@ -583,7 +581,7 @@ value_boxes_tab <- tabItem(
       value = 150,
       subtitle = "New orders",
       color = "primary",
-      icon = icon("shopping-cart"),
+      icon = icon("cart-shopping"),
       href = "#"
     ),
     valueBox(
@@ -591,13 +589,13 @@ value_boxes_tab <- tabItem(
       value = "53%",
       subtitle = "New orders",
       color = "danger",
-      icon = icon("cogs")
+      icon = icon("gears")
     ),
     valueBox(
       value = "44",
       subtitle = "User Registrations",
       color = "warning",
-      icon = icon("sliders-h")
+      icon = icon("sliders")
     ),
     valueBox(
       value = "53%",
@@ -620,7 +618,7 @@ value_boxes_tab <- tabItem(
       title = "Navigate to colors section",
       color = "info",
       value = 240,
-      icon = icon("tint"),
+      icon = icon("droplet"),
       elevation = 4
     ),
     infoBox(
@@ -772,7 +770,7 @@ gallery_1_tab <- tabItem(
         timelineLabel("10 Feb. 2014", color = "info"),
         timelineItem(
           title = "Item 1",
-          icon = icon("cogs"),
+          icon = icon("gears"),
           color = "success",
           time = "now",
           footer = "Here is the footer",
@@ -799,7 +797,7 @@ gallery_1_tab <- tabItem(
       timelineLabel("10 Feb. 2014", color = "info"),
       timelineItem(
         title = "Item 1",
-        icon = icon("cogs"),
+        icon = icon("gears"),
         color = "success",
         time = "now",
         footer = "Here is the footer",
@@ -973,7 +971,7 @@ shinyApp(
     scrollToTop = TRUE,
     header = dashboardHeader(
       title = dashboardBrand(
-        title = "bs4Dash",
+        title = sprintf("bs4Dash v%s", as.character(utils::packageVersion("bs4Dash"))),
         color = "primary",
         href = "https://divadnojnarg.github.io/outstanding-shiny-ui/",
         image = "https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg",
@@ -1058,7 +1056,7 @@ shinyApp(
         menuItem(
           "Basic cards",
           tabName = "cards",
-          icon = icon("sliders-h")
+          icon = icon("sliders")
         ),
         menuItem(
           "Cards API",
@@ -1099,7 +1097,7 @@ shinyApp(
         menuItem(
           "Colors",
           tabName = "colors",
-          icon = icon("tint")
+          icon = icon("droplet")
         ),
 
         sidebarHeader("BS4 gallery"),
@@ -1188,7 +1186,7 @@ shinyApp(
         href = "https://twitter.com/divadnojnarg",
         target = "_blank", "@DivadNojnarg"
       ),
-      right = "2020"
+      right = "2022"
     ),
     title = "bs4Dash Showcase"
   ),
@@ -1422,7 +1420,7 @@ shinyApp(
             appButton(
               inputId = "reload",
               label = "Click me!",
-              icon = icon("sync"),
+              icon = icon("arrows-rotate"),
               dashboardBadge(1, color = "primary")
             )
           )

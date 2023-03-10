@@ -52,7 +52,7 @@
 bs4DashNavbar <- function(..., title = NULL, titleWidth = NULL, disable = FALSE,
                           .list = NULL, leftUi = NULL, rightUi = NULL, skin = "light", status = "white",
                           border = TRUE, compact = FALSE, sidebarIcon = shiny::icon("bars"),
-                          controlbarIcon = shiny::icon("th"), fixed = FALSE) {
+                          controlbarIcon = shiny::icon("table-cells"), fixed = FALSE) {
   items <- c(list(...), .list)
 
   # make sure default status for dark skin is gray-dark if status is not specified
@@ -302,7 +302,7 @@ bs4DropdownMenu <- function(..., type = c("messages", "notifications", "tasks"),
       type,
       messages = shiny::icon("comments"),
       notifications = shiny::icon("bell"),
-      tasks = shiny::icon("tasks")
+      tasks = shiny::icon("list-check")
     )
   }
 
@@ -480,13 +480,13 @@ messageItem <- function(from, message, icon = shiny::icon("user"), time = NULL,
 #'   \item \code{teal}: \Sexpr[results=rd, stage=render]{bs4Dash:::rd_color_tag("#39cccc")}.
 #'   \item \code{olive}: \Sexpr[results=rd, stage=render]{bs4Dash:::rd_color_tag("#3d9970")}.
 #' }
-#' @param href An optional URL to link to.
+#' @param href An optional URL to link to. When inputId is set, href will be ignored.
 #' @param inputId Whether to allow the item to act as a \link[shiny]{actionButton}.
 #'
 #' @rdname dropdownMenu
 #'
 #' @export
-notificationItem <- function(text, icon = shiny::icon("exclamation-triangle"),
+notificationItem <- function(text, icon = shiny::icon("triangle-exclamation"),
                              status = "success", href = NULL, inputId = NULL) {
   tagAssert(icon, type = "i")
   if (is.null(href)) href <- "#"
@@ -504,9 +504,9 @@ notificationItem <- function(text, icon = shiny::icon("exclamation-triangle"),
       class = itemCl,
       `disabled` = if (is.null(inputId)) NA else NULL,
       href = if (is.null(inputId)) {
-        "#"
+        if (!is.null(href)) href else "#"
       } else {
-        href
+        "#"
       },
       target = if (is.null(inputId)) {
         if (!is.null(href)) "_blank"

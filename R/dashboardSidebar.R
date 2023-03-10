@@ -125,9 +125,9 @@ bs4DashSidebar <- function(..., disable = FALSE, width = NULL,
     customCSS,
     id = id,
     `data-fixed` = tolower(fixed),
-    `data-minified` = if (minified) "true" else "false",
-    `data-collapsed` = dataValueString,
-    `data-disable` = if (disable) TRUE else FALSE,
+    `data-minified` = minified,
+    `data-collapsed` = collapsed,
+    `data-disable` = disable,
     class = paste0(
       "main-sidebar sidebar-", skin, "-",
       status, " elevation-", elevation,
@@ -311,6 +311,9 @@ findSidebarItem <- function(items, regex) {
 #' @param startExpanded Whether to expand the \link{menuItem} at start.
 #' @param condition When using \link{menuItem} with \link[shiny]{conditionalPanel},
 #' write the condition here (see \url{https://github.com/RinteRface/bs4Dash/issues/35}).
+#' @param .list An optional list containing items to put in the menu Same as the
+#' \code{...} arguments, but in list format. This can be useful when working
+#' with programmatically generated items.
 #'
 #' @rdname dashboardSidebar
 #'
@@ -360,8 +363,8 @@ bs4SidebarMenuItem <- function(text, ..., icon = NULL, badgeLabel = NULL, badgeC
                                tabName = NULL, href = NULL,
                                newTab = TRUE, selected = NULL,
                                expandedName = as.character(gsub("[[:space:]]", "", text)),
-                               startExpanded = FALSE, condition = NULL) {
-  subItems <- list(...)
+                               startExpanded = FALSE, condition = NULL, .list = NULL) {
+  subItems <- c(list(...), .list)
 
   if (!is.null(icon)) {
     tagAssert(icon, type = "i")
@@ -404,7 +407,7 @@ bs4SidebarMenuItem <- function(text, ..., icon = NULL, badgeLabel = NULL, badgeC
           target = if (!is.null(href)) {
             if (newTab) "_blank"
           },
-          `data-toggle` = "tab",
+          `data-toggle` = if (is.null(href)) "tab",
           `data-value` = if (!is.null(tabName)) tabName,
           # needed by leftSidebar.js
           `data-start-selected` = if (isTRUE(selected)) 1 else NULL,
@@ -415,13 +418,15 @@ bs4SidebarMenuItem <- function(text, ..., icon = NULL, badgeLabel = NULL, badgeC
     )
     # in case we have multiple subitems
   } else {
-
     # add special class for leftSidebar.js
     for (i in seq_along(subItems)) {
-      subItems[[i]]$children[[1]]$attribs$class <- paste(
-        subItems[[i]]$children[[1]]$attribs$class,
-        "treeview-link"
-      )
+      # Only apply if element is menuSubItem.
+      if (subItems[[i]]$attribs$class == "nav-item") {
+        subItems[[i]]$children[[1]]$attribs$class <- paste(
+          subItems[[i]]$children[[1]]$attribs$class,
+          "treeview-link"
+        )
+      }
     }
 
     # If we're restoring a bookmarked app, this holds the value of what menuItem (if any)
@@ -485,7 +490,7 @@ bs4SidebarMenuItem <- function(text, ..., icon = NULL, badgeLabel = NULL, badgeC
 #'
 #' @export
 bs4SidebarMenuSubItem <- function(text, tabName = NULL, href = NULL,
-                                  newTab = NULL, icon = shiny::icon("angle-double-right"), selected = NULL) {
+                                  newTab = NULL, icon = shiny::icon("angles-right"), selected = NULL) {
   if (!is.null(icon)) {
     tagAssert(icon, type = "i")
     icon$attribs$cl <- paste0(icon$attribs$cl, " nav-icon")
@@ -507,7 +512,7 @@ bs4SidebarMenuSubItem <- function(text, tabName = NULL, href = NULL,
       target = if (!is.null(href)) {
         if (newTab) "_blank"
       },
-      `data-toggle` = "tab",
+      `data-toggle` = if (is.null(href)) "tab",
       `data-value` = tabName,
       # below this is needed by leftSidebar.js
       `data-start-selected` = if (isTRUE(selected)) 1 else NULL,
@@ -634,12 +639,12 @@ bs4SidebarUserPanel <- function(name, image = NULL) {
 #'           menuItem(
 #'             text = "Tab 1",
 #'             tabName = "tab1",
-#'             icon = icon("shuttle-van")
+#'             icon = icon("van-shuttle")
 #'           ),
 #'           menuItem(
 #'             text = "Tab 2",
 #'             tabName = "tab2",
-#'             icon = icon("space-shuttle"),
+#'             icon = icon("shuttle-space"),
 #'             selected = TRUE
 #'           ),
 #'           menuItem(
@@ -649,12 +654,12 @@ bs4SidebarUserPanel <- function(name, image = NULL) {
 #'             menuSubItem(
 #'               text = "Item 3",
 #'               tabName = "tab3",
-#'               icon = icon("circle-thin")
+#'               icon = icon("circle")
 #'             ),
 #'             menuSubItem(
 #'               text = "Item 4",
 #'               tabName = "tab4",
-#'               icon = icon("circle-thin")
+#'               icon = icon("circle")
 #'             )
 #'           ),
 #'           menuItem(
@@ -664,18 +669,18 @@ bs4SidebarUserPanel <- function(name, image = NULL) {
 #'             menuSubItem(
 #'               text = "Item 5",
 #'               tabName = "tab5",
-#'               icon = icon("circle-thin")
+#'               icon = icon("circle")
 #'             ),
 #'             menuSubItem(
 #'               text = "Item 6",
 #'               tabName = "tab6",
-#'               icon = icon("circle-thin")
+#'               icon = icon("circle")
 #'             )
 #'           ),
 #'           menuItem(
 #'             text = "Tab 7",
 #'             tabName = "tab7",
-#'             icon = icon("home")
+#'             icon = icon("house")
 #'           )
 #'         )
 #'       ),
