@@ -15,12 +15,19 @@ getCardChildren <- function(card) {
 
 test_that("structure", {
   golem::expect_shinytag(bs4ValueBox(2, "Value"))
-  expect_error(bs4ValueBox(2))
+  # allowed now with no subtitle, since default is NULL
+  expect_no_error(bs4ValueBox(2))
   expect_error(bs4ValueBox(subtitle = "Value"))
   expect_error(bs4ValueBox(2, "Value", href = "ppp", footer = "kkk"))
   
   # inner (value + footer). Footer is just here for styling purpose
   valueBoxTag <- bs4ValueBox(2, "Value")
+  valueBoxChildren <- getCardChildren(valueBoxTag)
+  expect_length(valueBoxChildren, 1)
+  expect_match(valueBoxChildren[[1]]$attribs$class, "inner")
+
+  # example with a footer, but empty
+  valueBoxTag <- bs4ValueBox(2, "Value", footer = "")
   valueBoxChildren <- getCardChildren(valueBoxTag)
   expect_length(valueBoxChildren, 2)
   expect_match(valueBoxChildren[[1]]$attribs$class, "inner")
@@ -28,6 +35,14 @@ test_that("structure", {
   
   # inner + icon
   valueBoxTag <- bs4ValueBox(2, "Value", icon = shiny::icon("gears"))
+  valueBoxChildren <- getCardChildren(valueBoxTag)
+  expect_length(valueBoxChildren, 2)
+  expect_match(valueBoxChildren[[1]]$attribs$class, "inner")
+  expect_match(valueBoxChildren[[2]]$attribs$class, "icon")
+
+  # inner + icon
+  valueBoxTag <- bs4ValueBox(2, "Value", icon = shiny::icon("gears"), 
+                             footer = "")
   valueBoxChildren <- getCardChildren(valueBoxTag)
   expect_length(valueBoxChildren, 3)
   expect_match(valueBoxChildren[[1]]$attribs$class, "inner")
